@@ -2,8 +2,8 @@ services:
   postgres:
     image: postgres:17
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
       POSTGRES_DB: contribution_tracker
     ports:
       - "5432:5432"
