@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "NodeNext",
+    "target": "ESNext",
     "module": "NodeNext",
     "outDir": "./dist",
     "rootDir": "./src",
