@@ -1,15 +1,43 @@
-import Fastify, { FastifyInstance } from 'fastify';
-import { configDotenv } from 'dotenv';
 import { join } from 'node:path';
 
-if (process.env.NODE_ENV !== 'production') {
+import Fastify from 'fastify';
+import cors, { FastifyCorsOptions } from '@fastify/cors';
+import jwt, { FastifyJWTOptions } from '@fastify/jwt';
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
+import { configDotenv } from 'dotenv';
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+if (isDevelopment) {
   configDotenv({
     path: join(process.cwd(), '.env'),
   });
 }
 
-const fastify: FastifyInstance = Fastify({
+const fastify = Fastify({
   logger: true,
+});
+
+// TODO: Setup production url 
+const corsOptions: FastifyCorsOptions = {
+  origin: isDevelopment ? true : 'production url'
+}
+
+fastify.register(cors, corsOptions);
+
+const jwtOptions: FastifyJWTOptions= {
+  secret: process.env.JWT_SECRET || 'secret',
+  sign: {
+    expiresIn: '1d',
+  },
+};
+
+fastify.register(jwt, jwtOptions);
+
+fastify.register(swagger);
+fastify.register(swaggerUi, {
+  routePrefix: '/docs',
 });
 
 fastify.get('/', async (request, reply) => {
