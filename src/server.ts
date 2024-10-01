@@ -6,6 +6,7 @@ import jwt, { FastifyJWTOptions } from '@fastify/jwt';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import { configDotenv } from 'dotenv';
+import { userController } from './features/user/controller.js';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -40,9 +41,7 @@ fastify.register(swaggerUi, {
   routePrefix: '/docs',
 });
 
-fastify.get('/', async (request, reply) => {
-  return { pong: 'it worked!' };
-});
+fastify.register(userController, { prefix: '/api/users'});
 
 try {
   await fastify.listen({ port: 3000 });
