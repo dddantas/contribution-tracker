@@ -7,6 +7,11 @@ const User = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
+const Login = z.object({
+  email: z.string().min(1, 'Email is required').email(),
+  password: z.string().min(1, 'Password is required'),
+});
+
 type User = typeof User._type;
 
-export { User };
+export { User, Login };

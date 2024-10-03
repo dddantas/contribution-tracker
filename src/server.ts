@@ -20,14 +20,14 @@ const fastify = Fastify({
   logger: true,
 });
 
-// TODO: Setup production url 
+// TODO: Setup production url
 const corsOptions: FastifyCorsOptions = {
-  origin: isDevelopment ? true : 'production url'
-}
+  origin: isDevelopment ? true : 'production url',
+};
 
 fastify.register(cors, corsOptions);
 
-const jwtOptions: FastifyJWTOptions= {
+const jwtOptions: FastifyJWTOptions = {
   secret: process.env.JWT_SECRET || 'secret',
   sign: {
     expiresIn: '1d',
@@ -41,11 +41,8 @@ fastify.register(swaggerUi, {
   routePrefix: '/docs',
 });
 
-fastify.register(userController, { prefix: '/api/users'});
+fastify.register(userController, { prefix: '/api/users' });
 
-try {
-  await fastify.listen({ port: 3000 });
-} catch (err) {
+await fastify.listen({ port: 3000 }).catch((err) => {
   fastify.log.error(err);
-  process.exit();
-}
+});
