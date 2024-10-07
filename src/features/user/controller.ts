@@ -69,7 +69,7 @@ export async function userController(fastify: FastifyInstance) {
   });
 
   fastify.get('/me', async (request, reply) => {
-    const token = request.headers.authorization;
+    const token = request.headers.authorization?.split(' ')[1];
 
     if (!token) {
       return reply.code(401).send({ error: 'No token provided' });
