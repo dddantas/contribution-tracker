@@ -12,6 +12,9 @@ const Login = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-type User = typeof User._type;
+const Roles = z.enum(['admin', 'user']);
 
-export { User, Login };
+type User = typeof User._type;
+type Roles = typeof Roles._type;
+
+export { User, Login, Roles };

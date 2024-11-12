@@ -6,7 +6,10 @@ import jwt, { FastifyJWTOptions } from '@fastify/jwt';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import { configDotenv } from 'dotenv';
+
 import { userController } from './features/user/controller.js';
+import { causeController } from './features/cause/controller.js';
+import { createAuthMiddleware } from './features/user/authentication.js';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -35,6 +38,7 @@ const jwtOptions: FastifyJWTOptions = {
 };
 
 fastify.register(jwt, jwtOptions);
+fastify.decorate('authenticate', createAuthMiddleware(fastify));
 
 fastify.register(swagger);
 fastify.register(swaggerUi, {
@@ -42,6 +46,7 @@ fastify.register(swaggerUi, {
 });
 
 fastify.register(userController, { prefix: '/api/users' });
+fastify.register(causeController, { prefix: '/api/causes' });
 
 await fastify.listen({ port: 3000 }).catch((err) => {
   fastify.log.error(err);

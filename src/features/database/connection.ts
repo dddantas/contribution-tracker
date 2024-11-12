@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import postgres from 'postgres';
 
-import { Database } from './types';
 import { drizzle } from 'drizzle-orm/postgres-js';
 
 export const queryClient = postgres({
@@ -12,4 +11,4 @@ export const queryClient = postgres({
   port: Number(process.env.PG_PORT),
 });
 
-export const db: Database = drizzle(queryClient);
+export const db = drizzle(queryClient);
